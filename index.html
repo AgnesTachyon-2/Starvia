@@ -70,18 +70,31 @@ body::before {
     box-shadow: 0 0 15px var(--accent);
 }
 
-.logo-container {
-  width: 65px; height: 65px;
-  background: linear-gradient(135deg, var(--accent), var(--nebula-purple));
-  border-radius: 50%;
-  display: flex; align-items:center; justify-content: center;
-  margin: 0 auto 1rem;
-  box-shadow: 0 0 25px rgba(0, 242, 255, 0.5);
-}
-
 .header { text-align:center; margin-bottom:2.5rem; }
-.header h1 { font-size: 3rem; letter-spacing: 5px; color: #fff; text-shadow: 0 0 10px var(--accent); }
-.header p { color:#94a3b8; font-size:1rem; margin-top: 5px; }
+.header h1 { font-size: 3.5rem; letter-spacing: 8px; color: #fff; text-shadow: 0 0 15px var(--accent); }
+.header p { color:#94a3b8; font-size:1rem; margin-top: 5px; text-transform: uppercase; letter-spacing: 2px; }
+
+.xmas-card {
+    border: 2px solid var(--xmas-red);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+.xmas-card::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--xmas-red), var(--xmas-green), var(--xmas-red));
+}
+.badge-live {
+    background: var(--xmas-red);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    float: right;
+}
 
 .card { 
   background: rgba(17, 21, 28, 0.6);
@@ -164,12 +177,15 @@ blockquote { border-left: 2px solid var(--accent); padding-left: 10px; margin: 5
   </div>
 
   <header class="header">
-    <div class="logo-container">
-        <i class="fas fa-star" style="font-size: 2rem; color: #fff;"></i>
-    </div>
     <h1>STARVIA</h1>
     <p id="sub-header">F2P Private Server Experience</p>
   </header>
+
+  <div class="card xmas-card">
+    <span class="badge-live">LIVE</span>
+    <h3 style="color: var(--xmas-red);" id="xmas-title"><i class="fas fa-gift"></i> Christmas Daily</h3>
+    <p style="font-size: 0.9rem; color: #cbd5e1;" id="xmas-desc">Snow is falling! Collect daily rewards and limited Exclusive items. Enjoy the Christmas!</p>
+  </div>
 
   <div class="card">
     <h3 id="card-conn-title"><i class="fas fa-satellite-dish"></i> Uplink Connections</h3>
@@ -251,6 +267,8 @@ const langData = {
         conn: "Uplink Connections",
         tut: "How To Play",
         comm: "Community Hub",
+        xtitle: "Christmas Daily",
+        xdesc: "Snow is falling! Collect daily rewards and limited Exclusive items. Enjoy the Christmas!",
         step1: "Step 1", step2: "Step 2", step3: "Step 3", step4: "Step 4",
         pt1: "Download PowerTunnel App from GitHub.",
         pt2: "Copy the PowerTunnel Host URL above.",
@@ -270,6 +288,8 @@ const langData = {
         conn: "Koneksi Uplink",
         tut: "Cara Bermain",
         comm: "Pusat Komunitas",
+        xtitle: "Harian Natal",
+        xdesc: "Salju turun! Kumpulkan hadiah harian dan item Eksklusif terbatas. Selamat menikmati Natal!",
         step1: "Langkah 1", step2: "Langkah 2", step3: "Langkah 3", step4: "Langkah 4",
         pt1: "Unduh Aplikasi PowerTunnel dari GitHub.",
         pt2: "Salin URL Host PowerTunnel di atas.",
@@ -289,6 +309,8 @@ const langData = {
         conn: "Mga Koneksyon",
         tut: "Paano Maglaro",
         comm: "Hub ng Komunidad",
+        xtitle: "Christmas Daily",
+        xdesc: "Bagsak na ang snow! Kolektahin ang mga daily reward at limited na Exclusibong items.",
         step1: "Hakbang 1", step2: "Hakbang 2", step3: "Hakbang 3", step4: "Hakbang 4",
         pt1: "I-download ang PowerTunnel sa GitHub.",
         pt2: "Kopyahin ang PowerTunnel URL sa itaas.",
@@ -314,7 +336,10 @@ function setLang(lang, btn) {
     document.getElementById('card-conn-title').innerHTML = `<i class="fas fa-satellite-dish"></i> ${d.conn}`;
     document.getElementById('card-tut-title').innerHTML = `<i class="fas fa-book-rocket"></i> ${d.tut}`;
     document.getElementById('card-comm-title').innerHTML = `<i class="fas fa-user-group"></i> ${d.comm}`;
-    
+  
+    document.getElementById('xmas-title').innerHTML = `<i class="fas fa-gift"></i> ${d.xtitle}`;
+    document.getElementById('xmas-desc').innerText = d.xdesc;
+
     document.querySelectorAll('[data-key="step1"]').forEach(el => el.innerText = d.step1);
     document.querySelectorAll('[data-key="step2"]').forEach(el => el.innerText = d.step2);
     document.querySelectorAll('[data-key="step3"]').forEach(el => el.innerText = d.step3);
@@ -356,11 +381,7 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove("show"), 2000);
 }
 
-const HOST_CONTENT = 
-`15.235.227.241 growtopia1.com
-15.235.227.241 growtopia2.com
-15.235.227.241 www.growtopia1.com
-15.235.227.241 www.growtopia2.com`;
+const HOST_CONTENT = `15.235.227.241 growtopia1.com\n15.235.227.241 growtopia2.com`;
 
 function copyHost(os) {
   navigator.clipboard.writeText(HOST_CONTENT).then(() => showToast(`${os.toUpperCase()} HOST COPIED`));
@@ -383,6 +404,3 @@ function downloadHost() {
 
 </body>
 </html>
-
-
-
