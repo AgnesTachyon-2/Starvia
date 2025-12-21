@@ -362,7 +362,11 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove("show"), 2000);
 }
 
-const HOST_CONTENT = `15.235.227.241 growtopia1.com\n15.235.227.241 growtopia2.com`;
+const HOST_CONTENT = 
+`15.235.227.241 growtopia1.com/n
+15.235.227.241 growtopia2.com/n
+15.235.227.241 www.growtopia1.com/n
+15.235.227.241 www.growtopia2.com`;
 
 function copyHost(os) {
   navigator.clipboard.writeText(HOST_CONTENT).then(() => showToast(`${os.toUpperCase()} HOST COPIED`));
@@ -385,3 +389,4 @@ function downloadHost() {
 
 </body>
 </html>
+
