@@ -45,6 +45,33 @@ body::before {
 
 .container { width: 100%; max-width: 600px; padding: 2rem 1rem; }
 
+/* LANGUAGE SELECTOR */
+.lang-selector {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+.lang-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lang-btn:hover { background: rgba(0, 242, 255, 0.1); }
+.lang-btn.active {
+    background: var(--accent);
+    color: #000;
+    box-shadow: 0 0 15px var(--accent);
+}
+
 .logo-container {
   width: 65px; height: 65px;
   background: linear-gradient(135deg, var(--accent), var(--nebula-purple));
@@ -65,26 +92,50 @@ body::before {
   padding: 1.5rem; border-radius: 20px; 
   border: 1px solid rgba(255, 255, 255, 0.1); 
   margin-bottom: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.card h3 { color: var(--accent); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+.card h3 { color: var(--accent); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; text-transform: uppercase; }
 
-/* CHRISTMAS CARD SPECIAL STYLE */
-.xmas-card {
-  border: 1px solid var(--xmas-red);
-  background: linear-gradient(145deg, rgba(239, 68, 68, 0.1), rgba(34, 197, 94, 0.05));
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+/* SMOOTH TUTORIAL ACCORDION */
+.tutorial-box { margin-top: 10px; }
+.tut-btn {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 12px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    transition: 0.3s;
 }
-.xmas-card h3 { color: var(--xmas-red) !important; text-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
-.event-badge {
-    background: var(--xmas-red);
-    color: white;
-    font-size: 0.7rem;
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-left: auto;
+.tut-btn:hover { background: rgba(0, 242, 255, 0.1); border-color: var(--accent); }
+.tut-btn i.fa-chevron-down { transition: transform 0.3s; }
+.tut-btn.active i.fa-chevron-down { transform: rotate(180deg); }
+
+.tut-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s;
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    line-height: 1.6;
 }
+.tut-content.show {
+    max-height: 600px; /* Large enough for content */
+    padding: 15px 20px;
+    border: 1px solid rgba(0, 242, 255, 0.1);
+    margin-bottom: 15px;
+}
+
+.step-title { color: var(--accent); font-weight: bold; display: block; margin-top: 10px; }
+blockquote { border-left: 2px solid var(--accent); padding-left: 10px; margin: 5px 0; color: #94a3b8; }
 
 /* BUTTONS */
 .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
@@ -96,89 +147,214 @@ body::before {
 }
 .btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); transform: translateY(-2px); }
 
-/* SPECIAL STYLES */
 .btn-discord { background: #5865f2; border: none; grid-column: span 2; font-size: 1rem; }
 .btn-yt { background: #ff0000; border: none; }
 .btn-tt { background: #000000; border: 1px solid #fff; }
-.btn-pt { background: #1e293b; border: 1px solid var(--accent); }
-.btn-ios { background: #ffffff; color: #000; border: none; }
-.btn-ios:hover { background: #e2e2e2; box-shadow: 0 0 15px #ffffff; color: #000; }
-.btn-win { background: #0078d4; border: none; }
-.btn-mac { background: #333333; border: 1px solid #555; }
+.btn-pt { background: #1e293b; border: 1px solid var(--accent); grid-column: span 2; }
 
 .footer { text-align: center; padding: 2rem; color: #475569; font-size: 0.8rem; letter-spacing: 2px; }
 
-.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #000; padding: 0.8rem 1.5rem; border-radius: 50px; font-weight: 700; opacity: 0; transition: 0.3s; pointer-events: none; z-index: 100; }
+.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #000; padding: 0.8rem 1.5rem; border-radius: 50px; font-weight: 700; opacity: 0; transition: 0.3s; z-index: 100; pointer-events: none; }
 .toast.show { opacity: 1; bottom: 50px; }
 </style>
 </head>
 <body>
 
 <div class="container">
+  
+  <div class="lang-selector">
+      <button class="lang-btn active" onclick="setLang('en', this)"><i class="fas fa-flag-usa"></i> EN</button>
+      <button class="lang-btn" onclick="setLang('id', this)"><i class="fas fa-flag"></i> ID</button>
+      <button class="lang-btn" onclick="setLang('ph', this)"><i class="fas fa-flag"></i> PH</button>
+  </div>
+
   <header class="header">
     <div class="logo-container">
-      <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        <i class="fas fa-star" style="font-size: 2rem; color: #fff;"></i>
     </div>
     <h1>STARVIA</h1>
-    <p>F2P Private Server Experience</p>
+    <p id="sub-header">F2P Private Server Experience</p>
   </header>
 
-  <div class="card xmas-card">
-    <h3><i class="fas fa-gift"></i> Christmas Daily <span class="event-badge">LIVE</span></h3>
-    <p style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.4;">
-        Santa is visiting Starvia! Login For Straight 7 Days to receive Exclusive Rewards! Including Starvia Token and Custom Items! 
-        <br><strong style="color: var(--xmas-green);">Status: Active for all Explorers.</strong>
-    </p>
-  </div>
-
   <div class="card">
-    <h3><i class="fas fa-satellite-dish"></i> Uplink Connections</h3>
+    <h3 id="card-conn-title"><i class="fas fa-satellite-dish"></i> Uplink Connections</h3>
     <div class="btn-grid">
-      <button class="btn btn-win" onclick="copyHost('Windows')">
-        <i class="fab fa-windows"></i> Copy Windows
-      </button>
-
-      <button class="btn btn-mac" onclick="copyHost('MacOS')">
-        <i class="fab fa-apple"></i> Copy MacOS
-      </button>
-
-      <button class="btn" onclick="downloadHost()">
-        <i class="fas fa-file-code"></i> Download VHost
-      </button>
-      
-      <button class="btn btn-ios" onclick="copyIOS()" >
-        <i class="fas fa-mobile"></i> Copy iOS
-      </button>
-      
-      <button class="btn btn-pt" onclick="copyPT()" style="grid-column: span 2;">
-        <i class="fab fa-android-screen-button"></i> Copy Powertunnel
-      </button>
+      <button class="btn" onclick="copyHost('Windows')"><i class="fab fa-windows"></i> Windows</button>
+      <button class="btn" onclick="copyHost('MacOS')"><i class="fab fa-apple"></i> MacOS</button>
+      <button class="btn" onclick="copyIOS()"><i class="fas fa-mobile"></i> iOS</button>
+      <button class="btn" onclick="downloadHost()"><i class="fas fa-file-code"></i> VHost</button>
+      <button class="btn btn-pt" onclick="copyPT()"><i class="fab fa-android"></i> Copy PowerTunnel URL</button>
     </div>
   </div>
 
   <div class="card">
-    <h3><i class="fas fa-user-group"></i> Community Hub</h3>
-    <div class="btn-grid">
-      <a href="https://discord.gg/55fcpuFahE" target="_blank" class="btn btn-discord">
-        <i class="fab fa-discord"></i> DISCORD STATION
-      </a>
-      <a href="https://youtube.com/@StarviaPS" target="_blank" class="btn btn-yt">
-        <i class="fab fa-youtube"></i> YOUTUBE
-      </a>
-      <a href="https://www.tiktok.com/@starvia_gtps2025?_r=1&_t=ZS-92NDQ6Cdlll" target="_blank" class="btn btn-tt">
-        <i class="fab fa-tiktok"></i> TIKTOK
-      </a>
+    <h3 id="card-tut-title"><i class="fas fa-book-rocket"></i> How To Play</h3>
+    
+    <div class="tutorial-box">
+        <button class="tut-btn" onclick="toggleTut('tut-android', this)">
+            <span id="label-android">Android (PowerTunnel)</span> <i class="fas fa-chevron-down"></i>
+        </button>
+        <div id="tut-android" class="tut-content">
+            <span class="step-title" data-key="step1">Step 1</span>
+            <blockquote data-key="step1-pt">Download PowerTunnel App from GitHub.</blockquote>
+            <span class="step-title" data-key="step2">Step 2</span>
+            <blockquote data-key="step2-pt">Copy the PowerTunnel Host URL from this site.</blockquote>
+            <span class="step-title" data-key="step3">Step 3</span>
+            <blockquote data-key="step3-pt">Open Settings > Host Settings.</blockquote>
+            <span class="step-title" data-key="step4">Step 4</span>
+            <blockquote data-key="step4-pt">Paste URL and set update to 'On Start'.</blockquote>
+        </div>
+
+        <button class="tut-btn" onclick="toggleTut('tut-ios', this)">
+            <span id="label-ios">iOS (Surge 5)</span> <i class="fas fa-chevron-down"></i>
+        </button>
+        <div id="tut-ios" class="tut-content">
+            <span class="step-title" data-key="step1">Step 1</span>
+            <blockquote data-key="step1-ios">Download Surge 5 from App Store.</blockquote>
+            <span class="step-title" data-key="step2">Step 2</span>
+            <blockquote data-key="step2-ios">Tap IMPORT > Download Profile from URL.</blockquote>
+            <span class="step-title" data-key="step3">Step 3</span>
+            <blockquote data-key="step3-ios">Paste the Starvia iOS URL.</blockquote>
+            <span class="step-title" data-key="step4">Step 4</span>
+            <blockquote data-key="step4-ios">Enable VPN Configuration and Launch.</blockquote>
+        </div>
+
+        <button class="tut-btn" onclick="toggleTut('tut-pc', this)">
+            <span id="label-pc">Windows / MacOS</span> <i class="fas fa-chevron-down"></i>
+        </button>
+        <div id="tut-pc" class="tut-content">
+            <span class="step-title" data-key="step1">Step 1</span>
+            <blockquote data-key="step1-pc">Press Win + R and go to: drivers/etc</blockquote>
+            <span class="step-title" data-key="step2">Step 2</span>
+            <blockquote data-key="step2-pc">Open 'hosts' file with Notepad.</blockquote>
+            <span class="step-title" data-key="step3">Step 3</span>
+            <blockquote data-key="step3-pc">Paste the Host text provided on this site.</blockquote>
+            <span class="step-title" data-key="step4">Step 4</span>
+            <blockquote data-key="step4-pc">Save and Launch Growtopia.</blockquote>
+        </div>
     </div>
   </div>
 
-  <footer class="footer">
-    STARVIA &copy; 2025 • BEYOND THE HORIZON
-  </footer>
+  <div class="card">
+    <h3 id="card-comm-title"><i class="fas fa-user-group"></i> Community Hub</h3>
+    <div class="btn-grid">
+      <a href="https://discord.gg/55fcpuFahE" target="_blank" class="btn btn-discord"><i class="fab fa-discord"></i> DISCORD</a>
+      <a href="https://youtube.com/@StarviaPS" target="_blank" class="btn btn-yt"><i class="fab fa-youtube"></i> YOUTUBE</a>
+      <a href="https://www.tiktok.com/@starvia_gtps2025" target="_blank" class="btn btn-tt"><i class="fab fa-tiktok"></i> TIKTOK</a>
+    </div>
+  </div>
+
+  <footer class="footer">STARVIA &copy; 2025 • BEYOND THE HORIZON</footer>
 </div>
 
 <div id="toast" class="toast">COPIED TO CLIPBOARD</div>
 
 <script>
+const langData = {
+    en: {
+        sub: "F2P Private Server Experience",
+        conn: "Uplink Connections",
+        tut: "How To Play",
+        comm: "Community Hub",
+        step1: "Step 1", step2: "Step 2", step3: "Step 3", step4: "Step 4",
+        pt1: "Download PowerTunnel App from GitHub.",
+        pt2: "Copy the PowerTunnel Host URL above.",
+        pt3: "Open Settings > Host Settings.",
+        pt4: "Paste URL and set to 'On Start'.",
+        ios1: "Download Surge 5 from App Store.",
+        ios2: "Tap IMPORT > Download Profile.",
+        ios3: "Paste the Starvia iOS URL.",
+        ios4: "Enable VPN and Launch.",
+        pc1: "Press Win+R to etc folder.",
+        pc2: "Open 'hosts' with Notepad.",
+        pc3: "Paste the Host text.",
+        pc4: "Save and Play."
+    },
+    id: {
+        sub: "Pengalaman Private Server F2P",
+        conn: "Koneksi Uplink",
+        tut: "Cara Bermain",
+        comm: "Pusat Komunitas",
+        step1: "Langkah 1", step2: "Langkah 2", step3: "Langkah 3", step4: "Langkah 4",
+        pt1: "Unduh Aplikasi PowerTunnel dari GitHub.",
+        pt2: "Salin URL Host PowerTunnel di atas.",
+        pt3: "Buka Pengaturan > Host Settings.",
+        pt4: "Tempel URL dan atur ke 'On Start'.",
+        ios1: "Unduh Surge 5 dari App Store.",
+        ios2: "Ketuk IMPORT > Download Profile.",
+        ios3: "Tempel URL iOS Starvia.",
+        ios4: "Aktifkan VPN dan Jalankan.",
+        pc1: "Tekan Win+R ke folder etc.",
+        pc2: "Buka file 'hosts' dengan Notepad.",
+        pc3: "Tempel teks Host Starvia.",
+        pc4: "Simpan dan Mainkan."
+    },
+    ph: {
+        sub: "Karanasan sa F2P Private Server",
+        conn: "Mga Koneksyon",
+        tut: "Paano Maglaro",
+        comm: "Hub ng Komunidad",
+        step1: "Hakbang 1", step2: "Hakbang 2", step3: "Hakbang 3", step4: "Hakbang 4",
+        pt1: "I-download ang PowerTunnel sa GitHub.",
+        pt2: "Kopyahin ang PowerTunnel URL sa itaas.",
+        pt3: "Buksan ang Settings > Host Settings.",
+        pt4: "I-paste ang URL at i-set sa 'On Start'.",
+        ios1: "I-download ang Surge 5 sa App Store.",
+        ios2: "I-tap ang IMPORT > Download Profile.",
+        ios3: "I-paste ang Starvia iOS URL.",
+        ios4: "I-enable ang VPN at Maglaro.",
+        pc1: "Pindutin ang Win+R sa etc folder.",
+        pc2: "Buksan ang 'hosts' gamit ang Notepad.",
+        pc3: "I-paste ang Host text dito.",
+        pc4: "I-save at Mag-login."
+    }
+};
+
+function setLang(lang, btn) {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    const d = langData[lang];
+    document.getElementById('sub-header').innerText = d.sub;
+    document.getElementById('card-conn-title').innerHTML = `<i class="fas fa-satellite-dish"></i> ${d.conn}`;
+    document.getElementById('card-tut-title').innerHTML = `<i class="fas fa-book-rocket"></i> ${d.tut}`;
+    document.getElementById('card-comm-title').innerHTML = `<i class="fas fa-user-group"></i> ${d.comm}`;
+    
+    document.querySelectorAll('[data-key="step1"]').forEach(el => el.innerText = d.step1);
+    document.querySelectorAll('[data-key="step2"]').forEach(el => el.innerText = d.step2);
+    document.querySelectorAll('[data-key="step3"]').forEach(el => el.innerText = d.step3);
+    document.querySelectorAll('[data-key="step4"]').forEach(el => el.innerText = d.step4);
+    
+    document.querySelector('[data-key="step1-pt"]').innerText = d.pt1;
+    document.querySelector('[data-key="step2-pt"]').innerText = d.pt2;
+    document.querySelector('[data-key="step3-pt"]').innerText = d.pt3;
+    document.querySelector('[data-key="step4-pt"]').innerText = d.pt4;
+    
+    document.querySelector('[data-key="step1-ios"]').innerText = d.ios1;
+    document.querySelector('[data-key="step2-ios"]').innerText = d.ios2;
+    document.querySelector('[data-key="step3-ios"]').innerText = d.ios3;
+    document.querySelector('[data-key="step4-ios"]').innerText = d.ios4;
+
+    document.querySelector('[data-key="step1-pc"]').innerText = d.pc1;
+    document.querySelector('[data-key="step2-pc"]').innerText = d.pc2;
+    document.querySelector('[data-key="step3-pc"]').innerText = d.pc3;
+    document.querySelector('[data-key="step4-pc"]').innerText = d.pc4;
+}
+
+function toggleTut(id, btn) {
+    const el = document.getElementById(id);
+    const isShowing = el.classList.contains('show');
+    
+    // Close others
+    document.querySelectorAll('.tut-content').forEach(c => c.classList.remove('show'));
+    document.querySelectorAll('.tut-btn').forEach(b => b.classList.remove('active'));
+    
+    if(!isShowing) {
+        el.classList.add('show');
+        btn.classList.add('active');
+    }
+}
+
 function showToast(msg) {
   const t = document.getElementById("toast");
   t.textContent = msg;
@@ -186,23 +362,17 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove("show"), 2000);
 }
 
-const HOST_CONTENT = `15.235.227.241 growtopia1.com
-15.235.227.241 growtopia2.com
-15.235.227.241 www.growtopia1.com
-15.235.227.241 www.growtopia2.com`;
+const HOST_CONTENT = `15.235.227.241 growtopia1.com\n15.235.227.241 growtopia2.com`;
 
 function copyHost(os) {
   navigator.clipboard.writeText(HOST_CONTENT).then(() => showToast(`${os.toUpperCase()} HOST COPIED`));
 }
-
 function copyPT() {
-  navigator.clipboard.writeText("https://as.panel.growsoft.cc/android/174").then(() => showToast("ANDROID LINK COPIED"));
+  navigator.clipboard.writeText("https://as.panel.growsoft.cc/android/174").then(() => showToast("POWERTUNNEL URL COPIED"));
 }
-
 function copyIOS() {
-  navigator.clipboard.writeText("https://as.panel.growsoft.cc/ios/174").then(() => showToast("IOS LINK COPIED"));
+  navigator.clipboard.writeText("https://as.panel.growsoft.cc/ios/174").then(() => showToast("IOS URL COPIED"));
 }
-
 function downloadHost() {
   const blob = new Blob([HOST_CONTENT], {type: "text/plain"});
   const a = document.createElement("a");
