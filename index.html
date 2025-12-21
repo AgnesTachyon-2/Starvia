@@ -255,7 +255,7 @@ blockquote { border-left: 2px solid var(--accent); padding-left: 10px; margin: 5
     </div>
   </div>
 
-  <footer class="footer">STARVIA &copy; 2025 • BEYOND THE HORIZON</footer>
+  <footer class="footer"> &copy; 2025 STARVIA All. rights reserved.</footer>
 </div>
 
 <div id="toast" class="toast">COPIED TO CLIPBOARD</div>
@@ -381,7 +381,11 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove("show"), 2000);
 }
 
-const HOST_CONTENT = `15.235.227.241 growtopia1.com\n15.235.227.241 growtopia2.com`;
+const HOST_CONTENT = 
+  `15.235.227.241 growtopia1.com
+15.235.227.241 growtopia2.com
+15.235.227.241 www.growtopia1.com
+15.235.227.241 www.growtopia2.com`;
 
 function copyHost(os) {
   navigator.clipboard.writeText(HOST_CONTENT).then(() => showToast(`${os.toUpperCase()} HOST COPIED`));
@@ -404,3 +408,4 @@ function downloadHost() {
 
 </body>
 </html>
+
