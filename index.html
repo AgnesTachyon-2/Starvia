@@ -1,413 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STARVIA | Growtopia Private Server</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIRAYA LEGACY | Growtopia Filipino Server</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-<style>
-:root {
-  --bg-space: #05070a;
-  --nebula-purple: #6d28d9;
-  --nebula-blue: #1e40af;
-  --accent: #00f2ff;
-  --xmas-red: #ef4444;
-  --xmas-green: #22c55e;
-}
+    <style>
+        :root {
+            --sky-top: #5a9ab7;    
+            --sky-mid: #7fb4cc;    
+            --sky-bottom: #a3d2e5;
+            --card-bg: #1a1d21;
+            --card-border: #2d3139;
+            --btn-bg: #2a2e35;
+            --accent: #fdf28f;
+            --text-main: #f8fafc;  
+            --text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
 
-* { margin:0; padding:0; box-sizing:border-box; }
+        * { margin:0; padding:0; box-sizing:border-box; }
 
-body { 
-  font-family: 'Space Grotesk', sans-serif; 
-  background: var(--bg-space);
-  background-image: 
-    radial-gradient(circle at 20% 30%, rgba(109, 40, 217, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(30, 64, 175, 0.15) 0%, transparent 40%);
-  color: #e5e5e5;
-  min-height: 100vh;
-  display: flex; flex-direction: column; align-items: center;
-}
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            background: linear-gradient(135deg, var(--sky-top) 0%, var(--sky-mid) 50%, var(--sky-bottom) 100%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-body::before {
-  content: "";
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: transparent;
-  box-shadow: 10vw 20vh #fff, 40vw 10vh #fff, 60vw 40vh #fff, 80vw 20vh #fff, 20vw 80vh #fff, 50vw 90vh #fff;
-  z-index: -1;
-  animation: twinkle 5s infinite;
-}
-@keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+        body::after {
+            content: "";
+            position: fixed;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 900px;
+            max-width: 90%;
+            height: 500px;
+            background: url('https://i.imgur.com/your-island-image.png') no-repeat center; 
+            background-size: contain;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.3;
+            animation: float 7s ease-in-out infinite;
+        }
 
-.container { width: 100%; max-width: 600px; padding: 2rem 1rem; }
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, 0px); }
+            50% { transform: translate(-50%, -15px); }
+        }
 
-.lang-selector {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 25px;
-}
-.lang-btn {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: white;
-    padding: 10px 16px;
-    border-radius: 50px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.lang-btn:hover { background: rgba(0, 242, 255, 0.1); }
-.lang-btn.active {
-    background: var(--accent);
-    color: #000;
-    box-shadow: 0 0 15px var(--accent);
-}
+        .container {
+            width: 100%;
+            max-width: 580px;
+            padding: 3rem 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
 
-.header { text-align:center; margin-bottom:2.5rem; }
-.header h1 { font-size: 3.5rem; letter-spacing: 8px; color: #fff; text-shadow: 0 0 15px var(--accent); }
-.header p { color:#94a3b8; font-size:1rem; margin-top: 5px; text-transform: uppercase; letter-spacing: 2px; }
+        .header { text-align: center; margin-bottom: 2.5rem; }
+        .header h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1.1rem, 5vw, 1.8rem);
+            color: var(--accent);
+            text-shadow: var(--text-shadow);
+            margin-bottom: 15px;
+        }
+        .header h3 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #fff;
+        }
 
-.xmas-card {
-    border: 2px solid var(--xmas-red);
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-.xmas-card::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--xmas-red), var(--xmas-green), var(--xmas-red));
-}
-.badge-live {
-    background: var(--xmas-red);
-    color: white;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    font-weight: bold;
-    float: right;
-}
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 1.8rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
 
-.card { 
-  background: rgba(17, 21, 28, 0.6);
-  backdrop-filter: blur(12px);
-  padding: 1.5rem; border-radius: 20px; 
-  border: 1px solid rgba(255, 255, 255, 0.1); 
-  margin-bottom: 1.5rem;
-}
+        .card h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.card h3 { color: var(--accent); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; text-transform: uppercase; }
+        .btn-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+        
+        .btn {
+            width: 100%;
+            padding: 1.1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--btn-bg);
+            color: #fff;
+            border: 1px solid #3d424b;
+            text-align: center;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
 
-.tutorial-box { margin-top: 10px; }
-.tut-btn {
-    width: 100%;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 12px;
-    text-align: left;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    transition: 0.3s;
-}
-.tut-btn:hover { background: rgba(0, 242, 255, 0.1); border-color: var(--accent); }
-.tut-btn i.fa-chevron-down { transition: transform 0.3s; }
-.tut-btn.active i.fa-chevron-down { transform: rotate(180deg); }
+        .btn:hover { 
+            background: #363b44;
+            border-color: var(--accent);
+            color: var(--accent);
+        }
 
-.tut-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s;
-    background: rgba(0,0,0,0.2);
-    border-radius: 12px;
-    margin-bottom: 8px;
-    font-size: 0.85rem;
-    line-height: 1.6;
-}
-.tut-content.show {
-    max-height: 600px;
-    padding: 15px 20px;
-    border: 1px solid rgba(0, 242, 255, 0.1);
-    margin-bottom: 15px;
-}
+        .btn-download {
+            background: #2d5a27;
+            border: 1px solid #3e7a36;
+        }
+        .btn-download:hover {
+            background: #3e7a36;
+        }
 
-.step-title { color: var(--accent); font-weight: bold; display: block; margin-top: 10px; }
-blockquote { border-left: 2px solid var(--accent); padding-left: 10px; margin: 5px 0; color: #94a3b8; }
+        .discord-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #000;
+            background: #2f3136;
+        }
 
-.btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-.btn { 
-  padding: 0.9rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s;
-  background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1);
-  text-align: center; text-decoration: none; font-size: 0.85rem;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); transform: translateY(-2px); }
+        .footer { 
+            text-align: center; 
+            padding: 2.5rem; 
+            font-size: 0.75rem; 
+            opacity: 0.8; 
+            font-weight: 700;
+            color: #2c3e50;
+        }
 
-.btn-discord { background: #5865f2; border: none; grid-column: span 2; font-size: 1rem; }
-.btn-yt { background: #ff0000; border: none; }
-.btn-tt { background: #000000; border: 1px solid #fff; }
-.btn-pt { background: #1e293b; border: 1px solid var(--accent); grid-column: span 2; }
-
-.footer { text-align: center; padding: 2rem; color: #475569; font-size: 0.8rem; letter-spacing: 2px; }
-
-.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #000; padding: 0.8rem 1.5rem; border-radius: 50px; font-weight: 700; opacity: 0; transition: 0.3s; z-index: 100; pointer-events: none; }
-.toast.show { opacity: 1; bottom: 50px; }
-</style>
+        .toast {
+            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
+            background: #fff; color: #1a1d21; padding: 14px 28px; border-radius: 12px;
+            font-family: 'Ubuntu', sans-serif; font-weight: 700; font-size: 0.9rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1000;
+        }
+        .toast.show { bottom: 40px; }
+    </style>
 </head>
 <body>
 
 <div class="container">
-  
-  <div class="lang-selector">
-      <button class="lang-btn active" onclick="setLang('en', this)"><i class="fas fa-flag-usa"></i> EN</button>
-      <button class="lang-btn" onclick="setLang('id', this)"><i class="fas fa-flag"></i> ID</button>
-      <button class="lang-btn" onclick="setLang('ph', this)"><i class="fas fa-flag"></i> PH</button>
-  </div>
+    <header class="header">
+        <h1>HIRAYA LEGACY</h1>
+        <h3>The Best Growtopia Private Server</h3>
+    </header>
 
-  <header class="header">
-    <h1>STARVIA</h1>
-    <p id="sub-header">F2P Private Server Experience</p>
-  </header>
-
-  <div class="card xmas-card">
-    <span class="badge-live">LIVE</span>
-    <h3 style="color: var(--xmas-red);" id="xmas-title"><i class="fas fa-gift"></i> Christmas Daily</h3>
-    <p style="font-size: 0.9rem; color: #cbd5e1;" id="xmas-desc">Snow is falling! Collect daily rewards and limited Exclusive items. Enjoy the Christmas!</p>
-  </div>
-
-  <div class="card">
-    <h3 id="card-conn-title"><i class="fas fa-satellite-dish"></i> Uplink Connections</h3>
-    <div class="btn-grid">
-      <button class="btn" onclick="copyHost('Windows')"><i class="fab fa-windows"></i> Windows</button>
-      <button class="btn" onclick="copyHost('MacOS')"><i class="fab fa-apple"></i> MacOS</button>
-      <button class="btn" onclick="copyIOS()"><i class="fas fa-mobile"></i> iOS</button>
-      <button class="btn" onclick="downloadHost()"><i class="fas fa-file-code"></i> VHost</button>
-      <button class="btn btn-pt" onclick="copyPT()"><i class="fab fa-android"></i> Copy PowerTunnel URL</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3 id="card-tut-title"><i class="fas fa-book-rocket"></i> How To Play</h3>
-    
-    <div class="tutorial-box">
-        <button class="tut-btn" onclick="toggleTut('tut-android', this)">
-            <span id="label-android">Android (PowerTunnel)</span> <i class="fas fa-chevron-down"></i>
-        </button>
-        <div id="tut-android" class="tut-content">
-            <span class="step-title" data-key="step1">Step 1</span>
-            <blockquote data-key="step1-pt">Download PowerTunnel App from GitHub.</blockquote>
-            <span class="step-title" data-key="step2">Step 2</span>
-            <blockquote data-key="step2-pt">Copy the PowerTunnel Host URL from this site.</blockquote>
-            <span class="step-title" data-key="step3">Step 3</span>
-            <blockquote data-key="step3-pt">Open Settings > Host Settings.</blockquote>
-            <span class="step-title" data-key="step4">Step 4</span>
-            <blockquote data-key="step4-pt">Paste URL and set update to 'On Start'.</blockquote>
-        </div>
-
-        <button class="tut-btn" onclick="toggleTut('tut-ios', this)">
-            <span id="label-ios">iOS (Surge 5)</span> <i class="fas fa-chevron-down"></i>
-        </button>
-        <div id="tut-ios" class="tut-content">
-            <span class="step-title" data-key="step1">Step 1</span>
-            <blockquote data-key="step1-ios">Download Surge 5 from App Store.</blockquote>
-            <span class="step-title" data-key="step2">Step 2</span>
-            <blockquote data-key="step2-ios">Tap IMPORT > Download Profile from URL.</blockquote>
-            <span class="step-title" data-key="step3">Step 3</span>
-            <blockquote data-key="step3-ios">Paste the Starvia iOS URL.</blockquote>
-            <span class="step-title" data-key="step4">Step 4</span>
-            <blockquote data-key="step4-ios">Enable VPN Configuration and Launch.</blockquote>
-        </div>
-
-        <button class="tut-btn" onclick="toggleTut('tut-pc', this)">
-            <span id="label-pc">Windows / MacOS</span> <i class="fas fa-chevron-down"></i>
-        </button>
-        <div id="tut-pc" class="tut-content">
-            <span class="step-title" data-key="step1">Step 1</span>
-            <blockquote data-key="step1-pc">Press Win + R and go to: drivers/etc</blockquote>
-            <span class="step-title" data-key="step2">Step 2</span>
-            <blockquote data-key="step2-pc">Open 'hosts' file with Notepad.</blockquote>
-            <span class="step-title" data-key="step3">Step 3</span>
-            <blockquote data-key="step3-pc">Paste the Host text provided on this site.</blockquote>
-            <span class="step-title" data-key="step4">Step 4</span>
-            <blockquote data-key="step4-pc">Save and Launch Growtopia.</blockquote>
+    <div class="card">
+        <h3><i class="fas fa-plug"></i> CONNECT NOW</h3>
+        <div class="btn-grid">
+            <button class="btn" onclick="copyHost('Windows')">
+                <i class="fab fa-windows"></i> Windows Host
+            </button>
+            <button class="btn" onclick="copyHost('MacOS')">
+                <i class="fab fa-apple"></i> MacOS Host
+            </button>
+            <button class="btn" onclick="copyIOS()">
+                <i class="fas fa-mobile-alt"></i> IOS Host (Surge 5)
+            </button>
+            <button class="btn btn-download" onclick="downloadHost()">
+                <i class="fas fa-file-download"></i> Download VHOST
+            </button>
+            <button class="btn" onclick="copyPT()">
+                <i class="fas fa-link"></i> PowerTunnel URL
+            </button>
         </div>
     </div>
-  </div>
 
-  <div class="card">
-    <h3 id="card-comm-title"><i class="fas fa-user-group"></i> Community Hub</h3>
-    <div class="btn-grid">
-      <a href="https://discord.gg/55fcpuFahE" target="_blank" class="btn btn-discord"><i class="fab fa-discord"></i> DISCORD</a>
-      <a href="https://youtube.com/@StarviaPS" target="_blank" class="btn btn-yt"><i class="fab fa-youtube"></i> YOUTUBE</a>
-      <a href="https://www.tiktok.com/@starvia_gtps2025" target="_blank" class="btn btn-tt"><i class="fab fa-tiktok"></i> TIKTOK</a>
+    <div class="card">
+        <h3><i class="fab fa-discord"></i> COMMUNITY</h3>
+        <div class="discord-container">
+            <iframe src="https://discord.com/widget?id=1456996889420632246&theme=dark" width="100%" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        </div>
     </div>
-  </div>
 
-  <footer class="footer"> &copy; 2025 STARVIA - PS. All rights reserved.</footer>
+    <footer class="footer">
+        HIRAYA LEGACY &copy; 2026 • ALL RIGHTS RESERVED
+    </footer>
 </div>
 
-<div id="toast" class="toast">COPIED TO CLIPBOARD</div>
+<div id="toast" class="toast">COPIED!</div>
 
 <script>
-const langData = {
-    en: {
-        sub: "F2P Private Server Experience",
-        conn: "Uplink Connections",
-        tut: "How To Play",
-        comm: "Community Hub",
-        xtitle: "Christmas Daily",
-        xdesc: "Snow is falling! Collect daily rewards and limited Exclusive items. Enjoy the Christmas!",
-        step1: "Step 1", step2: "Step 2", step3: "Step 3", step4: "Step 4",
-        pt1: "Download PowerTunnel App from GitHub.",
-        pt2: "Copy the PowerTunnel Host URL above.",
-        pt3: "Open Settings > Host Settings.",
-        pt4: "Paste URL and set to 'On Start'.",
-        ios1: "Download Surge 5 from App Store.",
-        ios2: "Tap IMPORT > Download Profile.",
-        ios3: "Paste the Starvia iOS URL.",
-        ios4: "Enable VPN and Launch.",
-        pc1: "Press Win+R to etc folder.",
-        pc2: "Open 'hosts' with Notepad.",
-        pc3: "Paste the Host text.",
-        pc4: "Save and Play."
-    },
-    id: {
-        sub: "Pengalaman Private Server F2P",
-        conn: "Koneksi Uplink",
-        tut: "Cara Bermain",
-        comm: "Pusat Komunitas",
-        xtitle: "Harian Natal",
-        xdesc: "Salju turun! Kumpulkan hadiah harian dan item Eksklusif terbatas. Selamat menikmati Natal!",
-        step1: "Langkah 1", step2: "Langkah 2", step3: "Langkah 3", step4: "Langkah 4",
-        pt1: "Unduh Aplikasi PowerTunnel dari GitHub.",
-        pt2: "Salin URL Host PowerTunnel di atas.",
-        pt3: "Buka Pengaturan > Host Settings.",
-        pt4: "Tempel URL dan atur ke 'On Start'.",
-        ios1: "Unduh Surge 5 dari App Store.",
-        ios2: "Ketuk IMPORT > Download Profile.",
-        ios3: "Tempel URL iOS Starvia.",
-        ios4: "Aktifkan VPN dan Jalankan.",
-        pc1: "Tekan Win+R ke folder etc.",
-        pc2: "Buka file 'hosts' dengan Notepad.",
-        pc3: "Tempel teks Host Starvia.",
-        pc4: "Simpan dan Mainkan."
-    },
-    ph: {
-        sub: "Karanasan sa F2P Private Server",
-        conn: "Mga Koneksyon",
-        tut: "Paano Maglaro",
-        comm: "Hub ng Komunidad",
-        xtitle: "Christmas Daily",
-        xdesc: "Bagsak na ang snow! Kolektahin ang mga daily reward at limited na Exclusibong items.",
-        step1: "Hakbang 1", step2: "Hakbang 2", step3: "Hakbang 3", step4: "Hakbang 4",
-        pt1: "I-download ang PowerTunnel sa GitHub.",
-        pt2: "Kopyahin ang PowerTunnel URL sa itaas.",
-        pt3: "Buksan ang Settings > Host Settings.",
-        pt4: "I-paste ang URL at i-set sa 'On Start'.",
-        ios1: "I-download ang Surge 5 sa App Store.",
-        ios2: "I-tap ang IMPORT > Download Profile.",
-        ios3: "I-paste ang Starvia iOS URL.",
-        ios4: "I-enable ang VPN at Maglaro.",
-        pc1: "Pindutin ang Win+R sa etc folder.",
-        pc2: "Buksan ang 'hosts' gamit ang Notepad.",
-        pc3: "I-paste ang Host text dito.",
-        pc4: "I-save at Mag-login."
+    function showToast(msg) {
+        const toast = document.getElementById("toast");
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2500);
     }
-};
 
-function setLang(lang, btn) {
-    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    
-    const d = langData[lang];
-    document.getElementById('sub-header').innerText = d.sub;
-    document.getElementById('card-conn-title').innerHTML = `<i class="fas fa-satellite-dish"></i> ${d.conn}`;
-    document.getElementById('card-tut-title').innerHTML = `<i class="fas fa-book-rocket"></i> ${d.tut}`;
-    document.getElementById('card-comm-title').innerHTML = `<i class="fas fa-user-group"></i> ${d.comm}`;
-  
-    document.getElementById('xmas-title').innerHTML = `<i class="fas fa-gift"></i> ${d.xtitle}`;
-    document.getElementById('xmas-desc').innerText = d.xdesc;
+    const SERVER_IP = "91.134.85.13";
+    const HOST_CONTENT = `${SERVER_IP} growtopia1.com\n${SERVER_IP} growtopia2.com\n${SERVER_IP} www.growtopia1.com\n${SERVER_IP} www.growtopia2.com`;
 
-    document.querySelectorAll('[data-key="step1"]').forEach(el => el.innerText = d.step1);
-    document.querySelectorAll('[data-key="step2"]').forEach(el => el.innerText = d.step2);
-    document.querySelectorAll('[data-key="step3"]').forEach(el => el.innerText = d.step3);
-    document.querySelectorAll('[data-key="step4"]').forEach(el => el.innerText = d.step4);
-    
-    document.querySelector('[data-key="step1-pt"]').innerText = d.pt1;
-    document.querySelector('[data-key="step2-pt"]').innerText = d.pt2;
-    document.querySelector('[data-key="step3-pt"]').innerText = d.pt3;
-    document.querySelector('[data-key="step4-pt"]').innerText = d.pt4;
-    
-    document.querySelector('[data-key="step1-ios"]').innerText = d.ios1;
-    document.querySelector('[data-key="step2-ios"]').innerText = d.ios2;
-    document.querySelector('[data-key="step3-ios"]').innerText = d.ios3;
-    document.querySelector('[data-key="step4-ios"]').innerText = d.ios4;
-
-    document.querySelector('[data-key="step1-pc"]').innerText = d.pc1;
-    document.querySelector('[data-key="step2-pc"]').innerText = d.pc2;
-    document.querySelector('[data-key="step3-pc"]').innerText = d.pc3;
-    document.querySelector('[data-key="step4-pc"]').innerText = d.pc4;
-}
-
-function toggleTut(id, btn) {
-    const el = document.getElementById(id);
-    const isShowing = el.classList.contains('show');
-    
-    document.querySelectorAll('.tut-content').forEach(c => c.classList.remove('show'));
-    document.querySelectorAll('.tut-btn').forEach(b => b.classList.remove('active'));
-    
-    if(!isShowing) {
-        el.classList.add('show');
-        btn.classList.add('active');
+    function copyHost(os) {
+        navigator.clipboard.writeText(HOST_CONTENT).then(() => showToast(`${os} Host Copied!`));
     }
-}
 
-function showToast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), 2000);
-}
+    function copyPT() {
+        navigator.clipboard.writeText("https://dash.gtps.cloud/android/1848").then(() => showToast("PowerTunnel URL Copied!"));
+    }
 
-const HOST_CONTENT = 
-  `91.134.85.13 growtopia1.com
-91.134.85.13 growtopia2.com
-91.134.85.13 www.growtopia1.com
-91.134.85.13 www.growtopia2.com`;
+    function copyIOS() {
+        navigator.clipboard.writeText("https://dash.gtps.cloud/ios/1848").then(() => showToast("IOS URL Copied!"));
+    }
 
-function copyHost(os) {
-  navigator.clipboard.writeText(HOST_CONTENT).then(() => showToast(`${os.toUpperCase()} HOST COPIED`));
-}
-function copyPT() {
-  navigator.clipboard.writeText("https://dash.gtps.cloud/android/1848").then(() => showToast("POWERTUNNEL URL COPIED"));
-}
-function copyIOS() {
-  navigator.clipboard.writeText("https://dash.gtps.cloud/ios/1848").then(() => showToast("IOS URL COPIED"));
-}
-function downloadHost() {
-  const blob = new Blob([HOST_CONTENT], {type: "text/plain"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "hosts.txt";
-  a.click();
-  showToast("VHOST DOWNLOADED");
-}
+    function downloadHost() {
+        const blob = new Blob([HOST_CONTENT], {type: "text/plain"});
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "hosts.txt";
+        a.click();
+        showToast("VHOST Downloaded!");
+    }
 </script>
 
 </body>
 </html>
-
-
-
