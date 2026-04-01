@@ -2,241 +2,524 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HIRAYA LEGACY | Growtopia Filipino Server</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Hiraya Legacy · Dashboard</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root {
-            --sky-top: #5a9ab7;    
-            --sky-mid: #7fb4cc;    
-            --sky-bottom: #a3d2e5;
-            --card-bg: #1a1d21;
-            --card-border: #2d3139;
-            --btn-bg: #2a2e35;
-            --accent: #fdf28f;
-            --text-main: #f8fafc;  
-            --text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-        }
-
-        * { margin:0; padding:0; box-sizing:border-box; }
-
+        * { font-family: 'Inter', sans-serif; }
+        
         body {
-            font-family: 'Ubuntu', sans-serif;
-            background: linear-gradient(135deg, var(--sky-top) 0%, var(--sky-mid) 50%, var(--sky-bottom) 100%);
-            background-attachment: fixed;
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background: #0a0f1f;
+            background-image: radial-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
-
-        body::after {
-            content: "";
+        
+        .glass-card {
+            background: #0f172a;
+            border: 1px solid #1e2937;
+            border-radius: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .glass-card:hover {
+            border-color: #334155;
+        }
+        
+        .badge-online {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+        }
+        
+        .badge-offline {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+        
+        .host-item {
+            background: #1e2937;
+            border: 1px solid #334155;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+        
+        .host-item:hover {
+            background: #334155;
+            border-color: #475569;
+        }
+        
+        .copy-btn, .download-btn {
+            background: #1e2937;
+            border: 1px solid #475569;
+            color: #94a3b8;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover, .download-btn:hover {
+            background: #475569;
+            color: white;
+            border-color: #64748b;
+        }
+        
+        .owner-card {
+            background: #1e2937;
+            border: 1px solid #334155;
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s;
+        }
+        
+        .owner-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #334155, #1e2937);
+            border: 2px solid #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #e2e8f0;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #1e2937;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.3s ease;
+        }
+        
+        .value-update {
+            transition: all 0.3s;
+        }
+        
+        .value-update.changed {
+            transform: scale(1.1);
+            color: #4ade80;
+        }
+        
+        .copy-toast {
             position: fixed;
-            bottom: 5%;
+            bottom: 24px;
             left: 50%;
             transform: translateX(-50%);
-            width: 900px;
-            max-width: 90%;
-            height: 500px;
-            background: url('https://i.imgur.com/your-island-image.png') no-repeat center; 
-            background-size: contain;
-            z-index: 1;
+            background: #1e2937;
+            color: #e2e8f0;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            border: 1px solid #475569;
+            box-shadow: 0 10px 25px -5px rgb(15 23 42);
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.2s;
             pointer-events: none;
-            opacity: 0.3;
-            animation: float 7s ease-in-out infinite;
+            white-space: nowrap;
         }
-
-        @keyframes float {
-            0%, 100% { transform: translate(-50%, 0px); }
-            50% { transform: translate(-50%, -15px); }
-        }
-
-        .container {
-            width: 100%;
-            max-width: 580px;
-            padding: 3rem 1.5rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .header { text-align: center; margin-bottom: 2.5rem; }
-        .header h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: clamp(1.1rem, 5vw, 1.8rem);
-            color: var(--accent);
-            text-shadow: var(--text-shadow);
-            margin-bottom: 15px;
-        }
-        .header h3 {
-            font-size: 0.85rem;
-            font-weight: 700;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #fff;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 1.8rem;
-            border-radius: 20px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .card h3 {
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-grid { display: flex; flex-direction: column; gap: 0.75rem; }
-        
-        .btn {
-            width: 100%;
-            padding: 1.1rem;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            background: var(--btn-bg);
-            color: #fff;
-            border: 1px solid #3d424b;
-            text-align: center;
-            font-size: 0.9rem;
-            text-decoration: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .btn:hover { 
-            background: #363b44;
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .btn-download {
-            background: #2d5a27;
-            border: 1px solid #3e7a36;
-        }
-        .btn-download:hover {
-            background: #3e7a36;
-        }
-
-        .discord-container {
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #000;
-            background: #2f3136;
-        }
-
-        .footer { 
-            text-align: center; 
-            padding: 2.5rem; 
-            font-size: 0.75rem; 
-            opacity: 0.8; 
-            font-weight: 700;
-            color: #2c3e50;
-        }
-
-        .toast {
-            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
-            background: #fff; color: #1a1d21; padding: 14px 28px; border-radius: 12px;
-            font-family: 'Ubuntu', sans-serif; font-weight: 700; font-size: 0.9rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1000;
-        }
-        .toast.show { bottom: 40px; }
     </style>
 </head>
-<body>
+<body class="text-slate-200">
 
-<div class="container">
-    <header class="header">
-        <h1>HIRAYA LEGACY</h1>
-        <h3>The Best Growtopia Private Server</h3>
-    </header>
+    <div id="copyToast" class="copy-toast">📋 Copied to clipboard</div>
 
-    <div class="card">
-        <h3><i class="fas fa-plug"></i> CONNECT NOW</h3>
-        <div class="btn-grid">
-            <button class="btn" onclick="copyHost('Windows')">
-                <i class="fab fa-windows"></i> Windows Host
-            </button>
-            <button class="btn" onclick="copyHost('MacOS')">
-                <i class="fab fa-apple"></i> MacOS Host
-            </button>
-            <button class="btn" onclick="copyIOS()">
-                <i class="fas fa-mobile-alt"></i> IOS Host (Surge 5)
-            </button>
-            <button class="btn btn-download" onclick="downloadHost()">
-                <i class="fas fa-file-download"></i> Download VHOST
-            </button>
-            <button class="btn" onclick="copyPT()">
-                <i class="fas fa-link"></i> PowerTunnel URL
-            </button>
+    <nav class="glass-card fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-32px)] max-w-6xl z-50 px-4 py-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl font-black text-white">⭐</span>
+                <span class="font-bold text-xl tracking-tight">Hiraya Legacy</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="#" class="px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-[#1e2937] rounded-lg transition">Dashboard</a>
+                <a href="#" class="px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-[#1e2937] rounded-lg transition">Hosts</a>
+                <a href="#" class="px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-[#1e2937] rounded-lg transition">Guide</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 pt-28 pb-12">
+
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div>
+                <h1 class="text-4xl font-bold text-white">Hiraya Legacy <span class="text-slate-300">Dashboard</span></h1>
+                <div class="flex items-center gap-3 text-sm mt-1">
+                    <span id="statusBadge" class="inline-flex items-center gap-1.5 badge-online px-3 py-1 rounded-full">
+                        <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                        <span>Online</span>
+                    </span>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <div class="glass-card px-5 py-3 text-center">
+                    <p class="text-xs text-slate-500">ONLINE</p>
+                    <p class="text-2xl font-bold text-green-400 value-update" id="onlinePlayers">1</p>
+                </div>
+                <div class="glass-card px-5 py-3 text-center">
+                    <p class="text-xs text-slate-500">WORLDS</p>
+                    <p class="text-2xl font-bold text-blue-400" id="totalWorlds">0</p>
+                </div>
+                <div class="glass-card px-5 py-3 text-center">
+                    <p class="text-xs text-slate-500">CPU</p>
+                    <p class="text-2xl font-bold text-yellow-400 value-update" id="cpuUsage">0.8%</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+            <div class="glass-card p-4 flex items-center gap-3">
+                <i class="fas fa-microchip text-slate-400 text-2xl"></i>
+                <div>
+                    <p class="text-xs text-slate-500">Memory</p>
+                    <p class="font-semibold text-lg value-update" id="memoryUsage">856 MB</p>
+                </div>
+            </div>
+            <div class="glass-card p-4 flex items-center gap-3">
+                <i class="fas fa-database text-slate-400 text-2xl"></i>
+                <div>
+                    <p class="text-xs text-slate-500">Storage</p>
+                    <p class="font-semibold text-lg value-update" id="storageUsage">214 MB</p>
+                </div>
+            </div>
+            <div class="glass-card p-4 flex items-center gap-3">
+                <i class="fas fa-users text-slate-400 text-2xl"></i>
+                <div>
+                    <p class="text-xs text-slate-500">Max Players</p>
+                    <p class="font-semibold text-lg" id="maxPlayers">100</p>
+                </div>
+            </div>
+            <div class="glass-card p-4 flex items-center gap-3">
+                <i class="fas fa-clock text-slate-400 text-2xl"></i>
+                <div>
+                    <p class="text-xs text-slate-500">Uptime</p>
+                    <p class="font-semibold text-lg" id="uptime">-</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="glass-card p-6">
+                <h2 class="text-lg font-semibold mb-4">Server Health</h2>
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-slate-400">CPU Usage</span>
+                            <span class="text-yellow-400" id="cpuPercent">0.8%</span>
+                        </div>
+                        <div class="progress-bar"><div id="cpuBar" class="progress-fill bg-yellow-400" style="width: 0.8%"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-slate-400">Memory Usage</span>
+                            <span class="text-blue-400" id="memPercent">21%</span>
+                        </div>
+                        <div class="progress-bar"><div id="memBar" class="progress-fill bg-blue-400" style="width: 21%"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-slate-400">Storage Usage</span>
+                            <span class="text-green-400" id="storagePercent">10%</span>
+                        </div>
+                        <div class="progress-bar"><div id="storageBar" class="progress-fill bg-green-400" style="width: 10%"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card p-6">
+                <h2 class="text-lg font-semibold mb-4">Server Records</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-[#1e2937] p-5 rounded-xl text-center">
+                        <p class="text-xs text-slate-500">Record Online</p>
+                        <p class="text-4xl font-bold text-yellow-400" id="recordPlayers">7</p>
+                        <p class="text-xs text-slate-600">players</p>
+                    </div>
+                    <div class="bg-[#1e2937] p-5 rounded-xl text-center">
+                        <p class="text-xs text-slate-500">Max Capacity</p>
+                        <p class="text-4xl font-bold text-blue-400" id="maxPlayersRecord">100</p>
+                        <p class="text-xs text-slate-600">players</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-6 mb-8">
+            <div class="lg:col-span-2">
+                <div class="glass-card p-6">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <i class="fas fa-plug text-slate-400"></i>
+                        Connection Hosts
+                    </h2>
+                    <div class="space-y-3">
+                        <div class="host-item">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-bolt text-slate-400"></i>
+                                <div>
+                                    <p class="font-medium">PowerTunnel</p>
+                                    <p class="text-xs text-slate-500">Android</p>
+                                </div>
+                            </div>
+                            <button onclick="copyHost('ptunel')" class="copy-btn">
+                                <i class="far fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        
+                        <div class="host-item">
+                            <div class="flex items-center gap-3">
+                                <i class="fab fa-apple text-slate-400"></i>
+                                <div>
+                                    <p class="font-medium">Surge 5</p>
+                                    <p class="text-xs text-slate-500">iOS</p>
+                                </div>
+                            </div>
+                            <button onclick="copyHost('surge')" class="copy-btn">
+                                <i class="far fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        
+                        <div class="host-item">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-network-wired text-slate-400"></i>
+                                <div>
+                                    <p class="font-medium">Virtual Host</p>
+                                    <p class="text-xs text-slate-500">Android & PC</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="copyHost('vhost')" class="copy-btn">
+                                    <i class="far fa-copy"></i> Copy
+                                </button>
+                                <button onclick="downloadVHost()" class="download-btn">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="host-item">
+                            <div class="flex items-center gap-3">
+                                <i class="fab fa-windows text-slate-400"></i>
+                                <div>
+                                    <p class="font-medium">Windows Hosts</p>
+                                    <p class="text-xs text-slate-500">PC</p>
+                                </div>
+                            </div>
+                            <button onclick="copyHost('windows')" class="copy-btn">
+                                <i class="far fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="glass-card p-6 h-full">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <i class="fas fa-users text-slate-400"></i>
+                        Community
+                    </h2>
+                    <a href="https://discord.gg/EgqwkMZdh8" target="_blank" class="block bg-[#1e2937] hover:bg-[#334155] border border-[#334155] rounded-2xl p-5 transition">
+                        <div class="flex items-center gap-4">
+                            <i class="fab fa-discord text-3xl text-[#5865F2]"></i>
+                            <div>
+                                <p class="font-medium">Hiraya Discord Server</p>
+                                <p class="text-sm text-slate-500">Join our community</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 mb-8">
+            <h2 class="text-lg font-semibold mb-4">Setup Guides</h2>
+            <div class="grid md:grid-cols-2 gap-6 text-sm">
+                <div>
+                    <p class="font-medium mb-2"><i class="fab fa-android"></i> Android</p>
+                    <ul class="list-disc ml-5 space-y-1 text-slate-400">
+                        <li>Use PowerTunnel or Virtual Host</li>
+                        <li>Copy host and paste in the app</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="font-medium mb-2"><i class="fab fa-apple"></i> iOS</p>
+                    <ul class="list-disc ml-5 space-y-1 text-slate-400">
+                        <li>Install Surge 5</li>
+                        <li>Import the copied host profile</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="font-medium mb-2"><i class="fab fa-windows"></i> Windows</p>
+                    <ul class="list-disc ml-5 space-y-1 text-slate-400">
+                        <li>Edit hosts file in <code class="bg-black/30 px-1">C:\Windows\System32\drivers\etc</code></li>
+                        <li>Paste the Windows hosts entries</li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="font-medium mb-2"><i class="fas fa-network-wired"></i> Virtual Host</p>
+                    <ul class="list-disc ml-5 space-y-1 text-slate-400">
+                        <li>Copy or download the Virtual Host file</li>
+                        <li>Paste in Virtual Host app and apply</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card p-6">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <i class="fas fa-crown text-yellow-500"></i>
+                Server Team
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-medium text-slate-300 mb-3">Owner</h3>
+                    <div class="owner-card">
+                        <div class="owner-avatar">S</div>
+                        <div>
+                            <p class="font-medium">Shigemi</p>
+                            <span class="owner-badge">Owner</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-medium text-slate-300 mb-3">Co-Owner</h3>
+                    <div class="owner-card">
+                        <div class="owner-avatar text-slate-500">—</div>
+                        <p class="font-medium text-slate-400">None</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center text-xs text-slate-600 mt-10">
+            Hiraya Legacy Dashboard • Real-time monitoring • Last update: <span id="lastUpdate">-</span>
         </div>
     </div>
 
-    <div class="card">
-        <h3><i class="fab fa-discord"></i> COMMUNITY</h3>
-        <div class="discord-container">
-            <iframe src="https://discord.com/widget?id=1456996889420632246&theme=dark" width="100%" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-        </div>
-    </div>
+    <script>
+        const API_MAIN = 'https://api.gtps.cloud/api/server/public/1848';
+        const API_STATUS = 'https://api.gtps.cloud/g-api/18948/status';
+        const API_WORLDS = 'https://api.gtps.cloud/g-api/18948/worlds';
 
-    <footer class="footer">
-        HIRAYA LEGACY &copy; 2026 • ALL RIGHTS RESERVED
-    </footer>
-</div>
+        const HOSTS = {
+            ptunel: 'https://dash.gtps.cloud/android/1848',
+            surge: 'https://dash.gtps.cloud/ios/1848',
+            vhost: '91.134.85.13 growtopia1.com\n91.134.85.13 growtopia2.com\n91.134.85.13 www.growtopia1.com\n91.134.85.13 www.growtopia2.com',
+            windows: '5.39.46.35 growtopia1.com\n5.39.46.35 growtopia2.com\n5.39.46.35 www.growtopia1.com\n5.39.46.35 www.growtopia2.com'
+        };
 
-<div id="toast" class="toast">COPIED!</div>
+        let prevValues = {};
 
-<script>
-    function showToast(msg) {
-        const toast = document.getElementById("toast");
-        toast.textContent = msg;
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 2500);
-    }
+        function showToast(msg) {
+            const toast = document.getElementById('copyToast');
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 2000);
+        }
 
-    const SERVER_IP = "91.134.85.13";
-    const HOST_CONTENT = `${SERVER_IP} growtopia1.com\n${SERVER_IP} growtopia2.com\n${SERVER_IP} www.growtopia1.com\n${SERVER_IP} www.growtopia2.com`;
+        async function copyHost(type) {
+            const text = HOSTS[type];
+            await navigator.clipboard.writeText(text);
+            showToast('✅ Copied to clipboard!');
+        }
 
-    function copyHost(os) {
-        navigator.clipboard.writeText(HOST_CONTENT).then(() => showToast(`${os} Host Copied!`));
-    }
+        function downloadVHost() {
+            const text = HOSTS.vhost;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'virtual-host.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('✅ Virtual Host downloaded!');
+        }
 
-    function copyPT() {
-        navigator.clipboard.writeText("https://dash.gtps.cloud/android/1848").then(() => showToast("PowerTunnel URL Copied!"));
-    }
+        async function fetchJSON(url) {
+            try {
+                const res = await fetch(url);
+                return await res.json();
+            } catch {
+                return null;
+            }
+        }
 
-    function copyIOS() {
-        navigator.clipboard.writeText("https://dash.gtps.cloud/ios/1848").then(() => showToast("IOS URL Copied!"));
-    }
+        function animateValue(el, value) {
+            if (!el) return;
+            const old = prevValues[el.id];
+            if (old !== undefined && old != value) {
+                el.classList.add('changed');
+                setTimeout(() => el.classList.remove('changed'), 400);
+            }
+            el.textContent = value;
+            prevValues[el.id] = value;
+        }
 
-    function downloadHost() {
-        const blob = new Blob([HOST_CONTENT], {type: "text/plain"});
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "hosts.txt";
-        a.click();
-        showToast("VHOST Downloaded!");
-    }
-</script>
+        function formatUptime(uptime) {
+            if (!uptime) return '-';
+            return uptime;
+        }
 
+        async function updateStats() {
+            const [main, status, worldsData] = await Promise.all([
+                fetchJSON(API_MAIN),
+                fetchJSON(API_STATUS),
+                fetchJSON(API_WORLDS)
+            ]);
+
+            let currentPlayers = 1;
+
+            if (main && main.state) {
+                const s = main.state;
+                currentPlayers = Math.max(1, s.players_online || 1);
+                animateValue(document.getElementById('onlinePlayers'), currentPlayers);
+                animateValue(document.getElementById('cpuUsage'), (s.cpu_usage || 0.8).toFixed(1) + '%');
+                animateValue(document.getElementById('memoryUsage'), (s.memory_usage || 856) + ' MB');
+                animateValue(document.getElementById('storageUsage'), Math.round(s.storage_usage || 214) + ' MB');
+            }
+
+            if (status) {
+                if (status.players_online !== undefined) {
+                    currentPlayers = Math.max(1, status.players_online);
+                    animateValue(document.getElementById('onlinePlayers'), currentPlayers);
+                }
+                if (status.uptime) document.getElementById('uptime').textContent = formatUptime(status.uptime);
+                if (status.record_online) document.getElementById('recordPlayers').textContent = status.record_online;
+            }
+
+            if (worldsData?.worlds) {
+                const worlds = worldsData.worlds || [];
+                document.getElementById('totalWorlds').textContent = worlds.length;
+            }
+
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateStats();
+            setInterval(updateStats, 8000);
+        });
+    </script>
 </body>
 </html>
