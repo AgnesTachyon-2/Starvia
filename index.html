@@ -171,6 +171,7 @@
                         <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
                         <span>Online</span>
                     </span>
+                    <span class="text-slate-500">5.39.46.35:17091</span>
                 </div>
             </div>
             <div class="flex gap-3">
@@ -285,7 +286,6 @@
                                 <i class="far fa-copy"></i> Copy
                             </button>
                         </div>
-                        
                         <div class="host-item">
                             <div class="flex items-center gap-3">
                                 <i class="fab fa-apple text-slate-400"></i>
@@ -298,7 +298,6 @@
                                 <i class="far fa-copy"></i> Copy
                             </button>
                         </div>
-                        
                         <div class="host-item">
                             <div class="flex items-center gap-3">
                                 <i class="fas fa-network-wired text-slate-400"></i>
@@ -316,7 +315,6 @@
                                 </button>
                             </div>
                         </div>
-                        
                         <div class="host-item">
                             <div class="flex items-center gap-3">
                                 <i class="fab fa-windows text-slate-400"></i>
@@ -493,10 +491,22 @@
             if (main && main.state) {
                 const s = main.state;
                 currentPlayers = Math.max(1, s.players_online || 1);
+                
                 animateValue(document.getElementById('onlinePlayers'), currentPlayers);
-                animateValue(document.getElementById('cpuUsage'), (s.cpu_usage || 0.8).toFixed(1) + '%');
-                animateValue(document.getElementById('memoryUsage'), (s.memory_usage || 856) + ' MB');
-                animateValue(document.getElementById('storageUsage'), Math.round(s.storage_usage || 214) + ' MB');
+                animateValue(document.getElementById('cpuUsage'), (s.cpu_usage || 0).toFixed(1) + '%');
+                animateValue(document.getElementById('memoryUsage'), (s.memory_usage || 0) + ' MB');
+                animateValue(document.getElementById('storageUsage'), Math.round(s.storage_usage || 0) + ' MB');
+
+                document.getElementById('cpuPercent').textContent = (s.cpu_usage || 0).toFixed(1) + '%';
+                document.getElementById('cpuBar').style.width = (s.cpu_usage || 0) + '%';
+
+                const memPercent = Math.min(100, Math.round(((s.memory_usage || 0) / 4096) * 100));
+                document.getElementById('memPercent').textContent = memPercent + '%';
+                document.getElementById('memBar').style.width = memPercent + '%';
+
+                const storagePercent = Math.min(100, Math.round(((s.storage_usage || 0) / 2048) * 100));
+                document.getElementById('storagePercent').textContent = storagePercent + '%';
+                document.getElementById('storageBar').style.width = storagePercent + '%';
             }
 
             if (status) {
@@ -504,21 +514,27 @@
                     currentPlayers = Math.max(1, status.players_online);
                     animateValue(document.getElementById('onlinePlayers'), currentPlayers);
                 }
-                if (status.uptime) document.getElementById('uptime').textContent = formatUptime(status.uptime);
-                if (status.record_online) document.getElementById('recordPlayers').textContent = status.record_online;
+                if (status.uptime) {
+                    document.getElementById('uptime').textContent = formatUptime(status.uptime);
+                }
+                if (status.record_online) {
+                    document.getElementById('recordPlayers').textContent = status.record_online;
+                }
             }
 
-            if (worldsData?.worlds) {
-                const worlds = worldsData.worlds || [];
-                document.getElementById('totalWorlds').textContent = worlds.length;
+            if (worldsData && worldsData.worlds) {
+                document.getElementById('totalWorlds').textContent = worldsData.worlds.length;
             }
 
-            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             updateStats();
-            setInterval(updateStats, 8000);
+            setInterval(updateStats, 5000);
         });
     </script>
 </body>
