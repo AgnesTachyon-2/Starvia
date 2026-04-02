@@ -154,8 +154,8 @@
                 <span class="font-bold text-xl tracking-tight">Hiraya Legacy</span>
             </div>
             <div class="flex items-center gap-2">
-                <a href="#" class="px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-[#1e2937] rounded-lg transition">Dashboard</a>
-                <a href="#" class="px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-[#1e2937] rounded-lg transition">Hosts</a>
+                <a href="#dashboard" class="px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-[#1e2937] rounded-lg transition">Dashboard</a>
+                <a href="#host" class="px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-[#1e2937] rounded-lg transition">Hosts</a>
                 <a href="#" class="px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-[#1e2937] rounded-lg transition">Guide</a>
             </div>
         </div>
@@ -165,7 +165,7 @@
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div>
-                <h1 class="text-4xl font-bold text-white">Hiraya Legacy <span class="text-slate-300">Dashboard</span></h1>
+                <h1 class="text-4xl font-bold text-white">HTPS <span class="text-slate-300">Dashboard</span></h1>
                 <div class="flex items-center gap-3 text-sm mt-1">
                     <span id="statusBadge" class="inline-flex items-center gap-1.5 badge-online px-3 py-1 rounded-full">
                         <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
@@ -447,7 +447,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'virtual-host.txt';
+            a.download = 'hiraya-vhost.txt';
             a.click();
             URL.revokeObjectURL(url);
             showToast('✅ Virtual Host downloaded!');
